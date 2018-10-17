@@ -21,8 +21,8 @@ public class RobotMap
     public static int TALON_PORT_BL = 4;
     public static int TALON_PORT_BR	= 2;
     public static int talon_lift 	= 5;
-    public static int driver_port   = 1;
-    public static int gunner_port   = 2;
+    public static int driver_port   = 0;
+    public static int gunner_port   = 1;
     public static int PCM_solenoid_G= 1;
     public static int PCM_solenoid_D= 1;
     public static int solenoid_G_one= 0;

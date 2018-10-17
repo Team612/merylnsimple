@@ -34,6 +34,7 @@ public class Robot extends TimedRobot
     public static final Lift lift = new Lift();
     public static Dropper dropper = new Dropper();
     public static Grabber grabber = new Grabber();
+    public static Compressor compressor = new Compressor(0);
   //  public static Compressor compressor = new Compressor(0);
     public static OI oi;
 
@@ -48,6 +49,7 @@ public class Robot extends TimedRobot
     public void robotInit() 
     {
         //compressor.setClosedLoopControl(true);
+        compressor.setClosedLoopControl(true);
         oi = new OI();
         //chooser.addDefault("Default Auto", new ExampleCommand());
         // chooser.addObject("My Auto", new MyAutoCommand());
