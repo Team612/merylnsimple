@@ -1,0 +1,9 @@
+*.class
+*.jar
+*.xml
+*.iml
+*.properties
+.idea
+out/*
+build/*
+bin/*
