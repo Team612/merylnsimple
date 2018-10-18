@@ -1,2 +1,2 @@
-# Merlin simple
-# Merlin code for IROCK because I broke the old code
+# Meryln simple
+# Meryln code for IROCK because I broke the old code
