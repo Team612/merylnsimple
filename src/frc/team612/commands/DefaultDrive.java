@@ -2,10 +2,18 @@ package frc.team612.commands;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team612.OI;
 import frc.team612.Robot;
 
 
 public class DefaultDrive extends Command {
+
+    final double DEADZONE = 0.07;
+    public static double magnitude;
+    public static double angle;
+    public static double rotation;
+    double direction_x;
+    double direction_y;
     public DefaultDrive() {
         requires(Robot.drivetrain);
         // Use requires() here to declare subsystem dependencies
@@ -26,17 +34,47 @@ public class DefaultDrive extends Command {
      * The execute method is called repeatedly when this Command is
      * scheduled to run until this Command either finishes or is canceled.
      */
-    @Override
+    protected  void doDead(){
+        if(Math.abs(direction_x) < DEADZONE){
+            direction_x =0;
+        }
+        if(Math.abs(direction_y) < DEADZONE){
+            direction_y=0;
+        }
+        if(Math.abs(rotation) < DEADZONE){
+            rotation =0;
+        }
+    }
+    protected void getInput() {
+
+        direction_y = OI.driver.getX(GenericHID.Hand.kLeft) ;
+        direction_x = OI.driver.getY(GenericHID.Hand.kLeft) *-1;
+        rotation    = OI.driver.getX(GenericHID.Hand.kRight);
+
+    }
+    protected void toPolar() {
+        magnitude = Math.sqrt(direction_x * direction_x + direction_y * direction_y);
+        if (magnitude > 1.0) {
+            magnitude = 1.0;
+        }
+        angle = Math.atan2(direction_y, direction_x) * 180 / Math.PI;
+    }
     protected void execute() {
-        Robot.drivetrain.getTalon(1).set(Robot.oi.driver.getY(GenericHID.Hand.kLeft));
-        Robot.drivetrain.getTalon(2).set(Robot.oi.driver.getY(GenericHID.Hand.kLeft));
-        Robot.drivetrain.getTalon(3).set((Robot.oi.driver.getY(GenericHID.Hand.kRight)) * -1);
-        Robot.drivetrain.getTalon(4).set((Robot.oi.driver.getY(GenericHID.Hand.kRight)) * -1);
+        getInput();
+        toPolar();
+        doDead();
+        Robot.drivetrain.getDriveTrain().drivePolar(magnitude, angle, rotation);
+       // Robot.drivetrain.getTalon(1).set(Robot.oi.driver.getY(GenericHID.Hand.kLeft));
+        //  Robot.drivetrain.getTalon(3).set(Robot.oi.driver.getY(GenericHID.Hand.kLeft));
+        //Robot.drivetrain.getTalon(2).set((Robot.oi.driver.getY(GenericHID.Hand.kRight)));
+        //Robot.drivetrain.getTalon(4).set((Robot.oi.driver.getY(GenericHID.Hand.kRight)));
+        //System.out.println(Robot.oi.driver.getY(GenericHID.Hand.kRight) + "this is right ");
 
 
 
 
-        //System.out.println("WORKING");
+
+       // System.out.println("WORKING");
     }
 
 
@@ -72,6 +110,7 @@ public class DefaultDrive extends Command {
      */
     @Override
     protected void end() {
+        //Robot.drivetrain.getDriveTrain().driveCartesian(0,  0,  0);
        // System.out.print("END");
     }
 
@@ -92,6 +131,7 @@ public class DefaultDrive extends Command {
      */
     @Override
     protected void interrupted() {
+       // Robot.drivetrain.getDriveTrain().driveCartesian(0,  0,  0);
         super.interrupted();
     }
 }

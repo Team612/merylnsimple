@@ -7,13 +7,14 @@
 
 package frc.team612;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team612.commands.AutoGroup;
 import frc.team612.subsystems.Drivetrain;
 import frc.team612.subsystems.Dropper;
 import frc.team612.subsystems.Grabber;
@@ -49,9 +50,10 @@ public class Robot extends TimedRobot
     public void robotInit() 
     {
         //compressor.setClosedLoopControl(true);
+        CameraServer.getInstance().startAutomaticCapture(0);
         compressor.setClosedLoopControl(true);
         oi = new OI();
-        //chooser.addDefault("Default Auto", new ExampleCommand());
+        chooser.addDefault("Default Auto", new AutoGroup());
         // chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
     }

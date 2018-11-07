@@ -1,15 +1,14 @@
 package frc.team612.commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team612.Robot;
 
 
-public class DefaultLift extends Command {
-    public DefaultLift() {
+public class AutoMove extends Command {
+    public AutoMove() {
+        requires(Robot.drivetrain);
         // Use requires() here to declare subsystem dependencies
-        System.out.println("Hey");
-        requires(Robot.lift);
+        // eg. requires(chassis);
     }
 
 
@@ -19,6 +18,7 @@ public class DefaultLift extends Command {
      */
     @Override
     protected void initialize() {
+        setTimeout(2);
 
     }
 
@@ -29,7 +29,9 @@ public class DefaultLift extends Command {
      */
     @Override
     protected void execute() {
-        Robot.lift.getTalon().set(Robot.oi.gunner.getY(GenericHID.Hand.kLeft));
+        Robot.drivetrain.getDriveTrain().drivePolar(1, 0, 0);
+
+
     }
 
 
@@ -53,7 +55,8 @@ public class DefaultLift extends Command {
     @Override
     protected boolean isFinished() {
         // TODO: Make this return true when this Command no longer needs to run execute()
-        return false;
+        return isTimedOut();
+
     }
 
 

@@ -13,13 +13,12 @@ package frc.team612;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
-public class RobotMap 
+public class RobotMap
 {
-
-    public static int TALON_PORT_FR = 3;
-    public static int TALON_PORT_FL = 1;
+    public static int TALON_PORT_FR = 1;
+    public static int TALON_PORT_FL = 2;
     public static int TALON_PORT_BL = 4;
-    public static int TALON_PORT_BR	= 2;
+    public static int TALON_PORT_BR	= 3;
     public static int talon_lift 	= 5;
     public static int driver_port   = 0;
     public static int gunner_port   = 1;
