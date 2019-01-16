@@ -29,6 +29,9 @@ public class RobotMap
     public static int solenoid_D_one= 2;
     public static int solenoid_D_two= 3;
 
+    public static int frontLeftLineTracker = 1;
+    public static int frontRightLineTracker = 0;
+    public static int backCenterLineTracker = 2;
 
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.

@@ -7,6 +7,9 @@
 
 package frc.team612;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -15,10 +18,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team612.commands.AutoGroup;
-import frc.team612.subsystems.Drivetrain;
-import frc.team612.subsystems.Dropper;
-import frc.team612.subsystems.Grabber;
-import frc.team612.subsystems.Lift;
+//import frc.team612.commands.VisionProcess;
+import frc.team612.commands.NetworkTableDesktopClient;
+import frc.team612.subsystems.*;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,10 +41,15 @@ public class Robot extends TimedRobot
     public static Dropper dropper = new Dropper();
     public static Grabber grabber = new Grabber();
     public static Compressor compressor = new Compressor(0);
+    private static NetworkTableEntry xEntry;
   //  public static Compressor compressor = new Compressor(0);
     public static OI oi;
 
+    public static LineTracker linetracker = new LineTracker();
+    public static Vision vision = new Vision();
     private Command autonomousCommand;
+    //private Command VisionProcess = new VisionProcess();
+    public NetworkTable table;
     private SendableChooser<Command> chooser = new SendableChooser<>();
 
     /**
@@ -49,7 +59,22 @@ public class Robot extends TimedRobot
     @Override
     public void robotInit() 
     {
+        /*NetworkTable.
+         NetworkTableInstance inst = NetworkTableInstance.getDefault();
+         inst
+         NetworkTable table = inst.getTable("database")
+         xEntry = table.getEntry("x");
+
+       /*Thread t = new Thread(() ->{
+           while(!Thread.interrupted()){
+               VisionProcess.start();
+           }
+        });
+        t.start();*/
         //compressor.setClosedLoopControl(true);
+        NetworkTable.setClientMode();
+        NetworkTable.setIPAddress("roboRIO-612-FRC.local");
+        table = NetworkTable.getTable("datatable");
         CameraServer.getInstance().startAutomaticCapture(0);
         compressor.setClosedLoopControl(true);
         oi = new OI();
@@ -122,11 +147,10 @@ public class Robot extends TimedRobot
         // continue until interrupted by another command, remove
         // this line or comment it out.
 
-        if (autonomousCommand != null) 
-        {
+        if (autonomousCommand != null) {
             autonomousCommand.cancel();
         }
-    }
+       }
 
     /**
      * This function is called periodically during operator control.
@@ -134,7 +158,12 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic() 
     {
-        Scheduler.getInstance().run();
+        //System.out.println(xEntry.getDouble('X'));
+        //Scheduler.getInstance().run();
+        double x = table.getNumber("x", 5.0);
+           /*double y = table.getNumber("Y", 0.0);
+           System.out.println("X: " + x + " Y:" + y);*/
+        System.out.println(x);
     }
 
     /**
