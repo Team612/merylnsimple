@@ -8,8 +8,13 @@ import frc.team612.Robot;
 public class DefaultLift extends Command {
     public DefaultLift() {
         // Use requires() here to declare subsystem dependencies
-        System.out.println("Hey");
         requires(Robot.lift);
+
+            }
+
+
+
+        }
     }
 
 
